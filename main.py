@@ -41,6 +41,4 @@ async def github_webhook(request: Request):
     # reviewer
     review = process_pr(pr)
 
-    print("REVIEW RESULT:", review)
-
     return {"status": "ok"}
