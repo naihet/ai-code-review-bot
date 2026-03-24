@@ -1,6 +1,9 @@
 from openai import OpenAI
 
-client = OpenAI()
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key="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"
+)
 
 def review_code(diff):
     print("🤖 AI is reviewing code...")
@@ -21,15 +24,16 @@ Diff:
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="mistralai/mistral-7b-instruct",
+
             messages=[
                 {"role": "user", "content": prompt}
             ],
+
             temperature=0.3
         )
 
-        result = response.choices[0].message.content
-        return result
+        return response.choices[0].message.content
 
     except Exception as e:
         print("❌ AI Error:", e)
