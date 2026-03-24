@@ -32,18 +32,26 @@ def process_pr(pr):
     diff = get_diff(diff_url)
 
     if not diff:
+        print("Failed to get diff")
         return None
 
     # 2. CLEAN
     diff = clean_diff(diff)
 
-    # 3. Print
-    print("===== CLEAN DIFF =====")
-    print(diff[:1000])
+    # 3. limit size before send to AI
+    trimmed_diff = diff[:3000]
 
-    # 4. limit size
-    diff = diff[:3000]
+    # 🔍 LOG: Diff
+    print("\n===== CLEAN DIFF =====")
+    print(trimmed_diff[:1000])  # preview
+    print("===== END DIFF =====\n")
 
-    review = review_code(diff)
+    # 4. send to AI
+    review = review_code(trimmed_diff)
+
+    # 🔍 LOG: AI Result
+    print("===== AI REVIEW =====")
+    print(review)
+    print("===== END REVIEW =====\n")
 
     return review
