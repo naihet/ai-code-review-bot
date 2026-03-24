@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from reviewer import process_pr
 import requests
 
 app = FastAPI()
@@ -28,36 +29,18 @@ def get_diff(diff_url):
 # =========================
 @app.post("/webhook")
 async def github_webhook(request: Request):
-    # get payload from GitHub (JSON)
     payload = await request.json()
 
     print("\n======== WEBHOOK HIT ========")
 
-    # show event type such
-    action = payload.get("action")
-    print("ACTION:", action)
-
-    # Prevent error if not PR event
     if "pull_request" not in payload:
-        print("Not a pull request event")
         return {"status": "ignored"}
 
-    # get PR
     pr = payload["pull_request"]
 
-    # info
-    print("PR Title:", pr.get("title"))
-    print("PR URL:", pr.get("html_url"))
-    print("Repo:", payload["repository"]["full_name"])
+    # reviewer
+    review = process_pr(pr)
 
-    # get diff URL
-    diff_url = pr.get("diff_url")
-    print("Diff URL:", diff_url)
-    diff = get_diff(diff_url)
-
-    if diff:
-        print("===== DIFF START =====")
-        print(diff[:1000])  # ตัดแค่ 1000 ตัวอักษร (กันยาวเกิน)
-        print("===== DIFF END =====")
+    print("REVIEW RESULT:", review)
 
     return {"status": "ok"}
