@@ -1,8 +1,9 @@
 from openai import OpenAI
+import os
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="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"
+    api_key=os.getenv("OPENROUTER_API_KEY")
 )
 
 def review_code(diff):
