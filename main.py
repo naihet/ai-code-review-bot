@@ -9,5 +9,12 @@ def root():
 @app.post("/webhook")
 async def github_webhook(request: Request):
     payload = await request.json()
-    print(payload)
+
+    if payload.get("action") == "opened":
+        pr = payload["pull_request"]
+
+        print("PR Title:", pr["title"])
+        print("PR URL:", pr["html_url"])
+        print("Repo:", payload["repository"]["full_name"])
+        
     return {"status": "ok"}
