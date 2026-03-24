@@ -9,15 +9,15 @@ def clean_diff(diff_text):
     skip = False
 
     for line in lines:
-        # skip.pyc
-        if line.startswith("diff --git") and ".pyc" in line:
-            skip = True
-            continue
+        # new files
+        if line.startswith("diff --git"):
+            # if not wanted files
+            if "__pycache__" in line or ".pyc" in line:
+                skip = True
+            else:
+                skip = False
 
-        # if file not .pyc → re-read
-        if line.startswith("diff --git") and ".pyc" not in line:
-            skip = False
-
+        # if not skip -> save
         if not skip:
             filtered.append(line)
 
@@ -28,22 +28,22 @@ def clean_diff(diff_text):
 def process_pr(pr):
     diff_url = pr.get("diff_url")
 
-    # 1. pull diff from GitHub
+    # 1. pull diff
     diff = get_diff(diff_url)
 
     if not diff:
         return None
 
-    # 2. clean diff
+    # 2. CLEAN
     diff = clean_diff(diff)
 
-    # 3. limit prevent error
+    # 3. Print
+    print("===== CLEAN DIFF =====")
+    print(diff[:1000])
+
+    # 4. limit size
     diff = diff[:3000]
 
-    print("===== CLEAN DIFF =====")
-    print(diff[:500])
-
-    # 4. send to AI
     review = review_code(diff)
 
     return review
