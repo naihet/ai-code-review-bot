@@ -10,13 +10,10 @@ def root():
 async def github_webhook(request: Request):
     payload = await request.json()
 
+    print("WEBHOOK HIT!!!")
     print("ACTION:", payload.get("action"))
-    
-    if payload.get("action") in ["opened", "synchronize"]:
-        pr = payload["pull_request"]
 
-        print("PR Title:", pr["title"])
-        print("PR URL:", pr["html_url"])
-        print("Repo:", payload["repository"]["full_name"])
-        
+    print("FULL PAYLOAD:")
+    print(payload)
+
     return {"status": "ok"}
