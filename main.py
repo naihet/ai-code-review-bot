@@ -10,6 +10,8 @@ def root():
 async def github_webhook(request: Request):
     payload = await request.json()
 
+    print("ACTION:", payload.get("action"))
+    
     if payload.get("action") in ["opened", "synchronize"]:
         pr = payload["pull_request"]
 
