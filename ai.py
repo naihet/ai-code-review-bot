@@ -25,7 +25,7 @@ Diff:
 
     try:
         response = client.chat.completions.create(
-            model="mistralai/mistral-7b-instruct",
+            model="openai/gpt-4o-mini",
 
             messages=[
                 {"role": "user", "content": prompt}

@@ -49,4 +49,3 @@ async def github_webhook(request: Request):
     review = process_pr(pr)
 
     return {"status": "ok"}
-    # test webhook again
