@@ -39,7 +39,7 @@ async def github_webhook(request: Request):
         print("✅ HAS PR")
     else:
         print("❌ NO PR")
-        
+
     if "pull_request" not in payload:
         return {"status": "ignored"}
 
@@ -49,3 +49,4 @@ async def github_webhook(request: Request):
     review = process_pr(pr)
 
     return {"status": "ok"}
+    # test webhook again
