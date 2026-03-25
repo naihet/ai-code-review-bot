@@ -32,6 +32,8 @@ async def github_webhook(request: Request):
     payload = await request.json()
 
     print("\n======== WEBHOOK HIT ========")
+    print("PAYLOAD KEYS:", payload.keys())
+    print("ACTION:", payload.get("action"))
 
     if "pull_request" not in payload:
         return {"status": "ignored"}
