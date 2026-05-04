@@ -2,7 +2,7 @@ import requests
 import os
 
 def review_code(diff):
-    print("🤖 AI is reviewing code...")
+    print("AI is reviewing code...")
 
     api_key = os.getenv("OPENROUTER_API_KEY")
 
@@ -39,12 +39,12 @@ Diff:
         response = requests.post(url, headers=headers, json=data)
 
         if response.status_code != 200:
-            print("❌ AI Error:", response.status_code, response.text)
+            print("AI Error:", response.status_code, response.text)
             return "AI review failed"
 
         result = response.json()
         return result["choices"][0]["message"]["content"]
 
     except Exception as e:
-        print("❌ Exception:", e)
+        print("Exception:", e)
         return "AI review failed"
