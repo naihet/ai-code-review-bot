@@ -36,10 +36,10 @@ async def github_webhook(request: Request):
     print("ACTION:", payload.get("action"))
 
     if "pull_request" in payload:
-        print("✅ HAS PR")
+        print("HAS PR")
     else:
-        print("❌ NO PR")
-        
+        print("NO PR")
+
     if "pull_request" not in payload:
         return {"status": "ignored"}
 
